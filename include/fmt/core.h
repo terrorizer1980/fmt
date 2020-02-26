@@ -231,8 +231,8 @@ FMT_API void assert_fail(const char* file, int line, const char* message);
 #    define FMT_ASSERT(condition, message)
 #  else
 #    define FMT_ASSERT(condition, message) \
-      ((condition)                         \
-           ? void()                        \
+      ((condition) /* void() fails with -Winvalid-constexpr on clang 4.0.1 */ \
+           ? (void)0                                                          \
            : fmt::internal::assert_fail(__FILE__, __LINE__, (message)))
 #  endif
 #endif
